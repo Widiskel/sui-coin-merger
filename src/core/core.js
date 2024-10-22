@@ -3,7 +3,6 @@ import { Ed25519Keypair } from "@mysten/sui/keypairs/ed25519";
 import { Helper } from "../utils/helper.js";
 import { Transaction } from "@mysten/sui/transactions";
 import { getFullnodeUrl, SuiClient } from "@mysten/sui/client";
-import { MIST_PER_SUI } from "@mysten/sui/utils";
 import logger from "../utils/logger.js";
 import { RPC } from "./network/rpc.js";
 
