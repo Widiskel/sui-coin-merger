@@ -33,8 +33,6 @@ export default class Core {
 
   async mergeCoin(coinToMerge) {
     try {
-      await Helper.delay(500, this.acc, `Merging Coin`, this);
-
       if (!coinToMerge.coin || coinToMerge.coin.length < 2) {
         await Helper.delay(
           1000,
@@ -44,22 +42,27 @@ export default class Core {
         );
         return;
       }
-      const tx = new Transaction();
-      const targetCoin = coinToMerge.coin[0].coinObjectId;
-      const coinsToMerge = coinToMerge.coin
-        .slice(1)
-        .map((coin) => coin.coinObjectId);
-      await Helper.delay(
-        1000,
-        this.acc,
-        `Merging ${coinsToMerge.length} of ${coinToMerge.metadata.name} `,
-        this
-      );
-      await tx.mergeCoins(
-        tx.object(targetCoin),
-        coinsToMerge.map((coin) => tx.object(coin))
-      );
-      await this.executeTx(tx);
+
+      while (coinToMerge.coin.length > 2) {
+        await Helper.delay(500, this.acc, `Merging Coin`, this);
+        const tx = new Transaction();
+        const targetCoin = coinToMerge.coin[0].coinObjectId;
+        const coinsToMerge = coinToMerge.coin
+          .slice(1)
+          .map((coin) => coin.coinObjectId);
+        await Helper.delay(
+          1000,
+          this.acc,
+          `Merging ${coinsToMerge.length} of ${coinToMerge.metadata.name} `,
+          this
+        );
+        await tx.mergeCoins(
+          tx.object(targetCoin),
+          coinsToMerge.map((coin) => tx.object(coin))
+        );
+        await this.executeTx(tx);
+        await this.getBalance();
+      }
     } catch (error) {
       throw error;
     }
