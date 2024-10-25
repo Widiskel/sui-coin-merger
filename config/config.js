@@ -1,6 +1,6 @@
 export class Config {
-  static DISPLAY = "BLESS";
+  static DISPLAY = "TWIST";
   static RPC = {
-    NETWORK: "mainnet", //'mainnet' | 'testnet' | 'devnet' | 'localnet'
+    NETWORK: "testnet", //'mainnet' | 'testnet' | 'devnet' | 'localnet'
   };
 }

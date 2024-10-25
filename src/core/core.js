@@ -46,10 +46,18 @@ export default class Core {
       while (coinToMerge.coin.length > 2) {
         await Helper.delay(500, this.acc, `Merging Coin`, this);
         const tx = new Transaction();
-        const targetCoin = coinToMerge.coin[0].coinObjectId;
-        const coinsToMerge = coinToMerge.coin
-          .slice(1)
-          .map((coin) => coin.coinObjectId);
+        let targetCoin, coinToMerge;
+        if (coinToMerge.coin[0].coinType == "0x2::sui::SUI") {
+          targetCoin = coinToMerge.coin[1].coinObjectId;
+          coinsToMerge = coinToMerge.coin
+            .slice(2)
+            .map((coin) => coin.coinObjectId);
+        } else {
+          targetCoin = coinToMerge.coin[0].coinObjectId;
+          coinsToMerge = coinToMerge.coin
+            .slice(1)
+            .map((coin) => coin.coinObjectId);
+        }
         await Helper.delay(
           1000,
           this.acc,
